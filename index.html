@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTTM - Mission to the Moon</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500&display=swap');
+        @import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css');
+        @import url('https://cdn.jsdelivr.net/gh/rastikerdar/iran-sans@v5.0.0/dist/font-face.css');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Vazir', 'IRANSans', 'Tahoma', Arial, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 25%, #16213e 50%, #0f3460 75%, #0a0a0a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        /* Animated Starry Background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .star {
+            position: absolute;
+            background: #ffffff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        /* Galaxy Animation */
+        .galaxy {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.3) 0%, rgba(147, 112, 219, 0.2) 40%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        /* Header */
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            position: relative;
+            z-index: 10;
+        }
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, #8A2BE2, #9370DB, #6A0DAD, #8A2BE2);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
+            margin-bottom: 0.5rem;
+        }
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .subtitle {
+            font-size: clamp(0.9rem, 3vw, 1.2rem);
+            color: #9370DB;
+            font-weight: 400;
+            letter-spacing: 2px;
+            font-family: 'Vazir', 'IRANSans', 'Tahoma', Arial, sans-serif;
+        }
+        /* Navigation */
+        .nav-toggle-container {
+            text-align: center;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+        .nav-toggle-btn {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.3), rgba(106, 13, 173, 0.3));
+            border: 2px solid rgba(138, 43, 226, 0.5);
+            border-radius: 15px;
+            color: #ffffff;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            -webkit-backdrop-filter: blur(10px);
+                    backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            min-width: 200px;
+            margin: 0 auto;
+            font-family: 'Vazir', 'IRANSans', 'Tahoma', Arial, sans-serif;
+        }
+        .nav-toggle-btn:hover {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.5), rgba(106, 13, 173, 0.5));
+            border-color: rgba(138, 43, 226, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(138, 43, 226, 0.3);
+        }
+        .toggle-icon {
+            transition: transform 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .nav-toggle-btn.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+        nav {
+            background: rgba(138, 43, 226, 0.1);
+            -webkit-backdrop-filter: blur(10px);
+                    backdrop-filter: blur(10px);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            border-radius: 15px;
+            margin: 1rem auto 2rem;
+            max-width: 800px;
+            padding: 1.5rem;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: top;
+        }
+        /* Collapsed state */
+        .nav-collapsed {
+            max-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            opacity: 0;
+            transform: scaleY(0);
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        /* Expanded state */
+        .nav-expanded {
+            max-height: 500px;
+            opacity: 1;
+            transform: scaleY(1);
+        }
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .nav-link {
+            display: block;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(106, 13, 173, 0.2));
+            border: 1px solid rgba(138, 43, 226, 0.4);
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 400;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Vazir', 'IRANSans', 'Tahoma', Arial, sans-serif;
+        }
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        .nav-link:hover::before {
+            left: 100%;
+        }
+        .nav-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(138, 43, 226, 0.3);
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.4), rgba(106, 13, 173, 0.4));
+            border-color: rgba(138, 43, 226, 0.8);
+        }
+        /* Ninja Emoji Center */
+        .ninja-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+            position: relative;
+        }
+        .ninja-emoji {
+            font-size: clamp(4rem, 12vw, 8rem);
+            animation: float 4s ease-in-out infinite, spin 20s linear infinite;
+            filter: drop-shadow(0 0 20px rgba(138, 43, 226, 0.6));
+            position: relative;
+            z-index: 5;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(5deg); }
+            50% { transform: translateY(-10px) rotate(0deg); }
+            75% { transform: translateY(-15px) rotate(-5deg); }
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        /* Pulse Ring Around Ninja */
+        .ninja-ring {
+            position: absolute;
+            width: clamp(200px, 30vw, 400px);
+            height: clamp(200px, 30vw, 400px);
+            border: 2px solid rgba(138, 43, 226, 0.4);
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: #9370DB;
+            font-size: 0.9rem;
+            font-family: 'Vazir', 'IRANSans', 'Tahoma', Arial, sans-serif;
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            nav {
+                margin: 1rem;
+                padding: 1rem;
+            }
+            
+            .ninja-container {
+                min-height: 200px;
+            }
+        }
+        @media (max-width: 480px) {
+            header {
+                padding: 1rem 0.5rem;
+            }
+            
+            .nav-link {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            .ninja-emoji,
+            .galaxy,
+            .star {
+                animation: none;
+            }
+        }
+        /* Focus Styles */
+        .nav-link:focus {
+            outline: 2px solid #8A2BE2;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="stars" id="stars"></div>
+    <div class="galaxy"></div>
+    
+    <!-- Header -->
+    <header>
+        <h1 class="logo">MTTM</h1>
+        <p class="subtitle">Mission to the Moon</p>
+    </header>
+    
+    <!-- Navigation -->
+    <!-- Navigation Toggle Button -->
+    <div class="nav-toggle-container">
+        <button id="navToggle" class="nav-toggle-btn">
+            <span class="toggle-text">منو اصلی</span>
+            <span class="toggle-icon">▼</span>
+        </button>
+    </div>
+    
+    <nav id="mainNav" class="nav-collapsed">
+        <div class="nav-grid">
+            <a href="/notice" class="nav-link">اطلاعیه ها</a> 
+            <a href="/whitepaper" class="nav-link">White paper / گزارش</a> 
+        </div>
+    </nav>
+    <br><br><br><br><br><br>
+    <!-- Ninja Emoji Center -->
+    <div class="ninja-container">
+        <div class="ninja-ring"></div>
+        <div class="ninja-emoji">🌕</div>
+    </div>
+    <br><br><br><br><br><br>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 MTTM - Powered by Galactic Dreams ✨</p>
+    </footer>
+
+    <script>
+        // Generate Random Stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numStars = window.innerWidth > 768 ? 100 : 50;
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Random position
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                
+                // Random size
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                // Random animation delay
+                star.style.animationDelay = Math.random() * 3 + 's';
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Initialize stars on load
+        document.addEventListener('DOMContentLoaded', createStars);
+        
+        // Recreate stars on resize for responsiveness
+        window.addEventListener('resize', () => {
+            const starsContainer = document.getElementById('stars');
+            starsContainer.innerHTML = '';
+            createStars();
+        });
+        
+        // Add click animation to ninja
+        document.querySelector('.ninja-emoji').addEventListener('click', function() {
+            this.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 200);
+        });
+        
+        // Navigation Toggle Functionality
+        document.getElementById('navToggle').addEventListener('click', function() {
+            const nav = document.getElementById('mainNav');
+            const toggleBtn = this;
+            
+            // Toggle classes
+            if (nav.classList.contains('nav-collapsed')) {
+                nav.classList.remove('nav-collapsed');
+                nav.classList.add('nav-expanded');
+                toggleBtn.classList.add('active');
+            } else {
+                nav.classList.remove('nav-expanded');
+                nav.classList.add('nav-collapsed');
+                toggleBtn.classList.remove('active');
+            }
+        });
+        
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
