@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#6E44FF" />
+  <title>White Paper سازمان MTTM — نسخه 0.1</title>
+  <meta name="description" content="White Paper سازمان MTTM — نسخه 0.1 (پیش‌نویس با طعم چایی و کمی شوخی)" />
+  <link rel="icon" href="mttm-logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&family=Noto+Sans:wght@400;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#0b0b0f;
+      --muted:#6a6a75;
+      --card:#ffffff;
+      --border:#ececf2;
+      --accent:#6E44FF;
+      --accent-2:#8B6CFF;
+      --shadow: 0 6px 24px rgba(15,15,35,0.08), 0 1px 0 rgba(0,0,0,0.04);
+      --radius:16px;
+      --radius-sm:10px;
+      --pad:18px;
+      --maxw:880px;
+      --mono:"Space Mono", ui-monospace, monospace;
+      --sans:"Vazirmatn", "Noto Sans", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:var(--bg); color:var(--text); font-family:var(--sans);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{opacity:.9}
+    .progress{
+      position:fixed; inset-inline-start:0; top:0; height:3px; width:0%;
+      background: linear-gradient(90deg,var(--accent),var(--accent-2));
+      z-index:50; transition:width .15s linear;
+    }
+    header{
+      position:sticky; top:0; z-index:40; backdrop-filter:saturate(1.2) blur(8px);
+      background: color-mix(in oklab, var(--bg) 85%, transparent);
+      border-bottom:1px solid var(--border);
+    }
+    .nav{
+      max-width:var(--maxw); margin:auto; padding:12px 16px; display:flex; align-items:center; gap:12px;
+    }
+    .logo{
+      width:36px; height:36px; border-radius:10px; box-shadow:var(--shadow);
+      object-fit:cover; background:none;
+      display:grid; place-items:center; background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      color:#fff; font:700 16px/1 var(--mono);
+    }
+    .brand{font:700 16px/1 var(--sans)}
+    .spacer{flex:1}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid var(--border);
+      border-radius:999px; background:var(--card); box-shadow:var(--shadow); font-size:12px; color:var(--muted);
+      border-color: color-mix(in oklab, var(--accent) 35%, var(--border));
+      background: color-mix(in oklab, var(--accent) 10%, #fff);
+    }
+    .container{max-width:var(--maxw); margin:auto; padding:20px 16px 120px}
+    .hero{
+      margin:18px 0 8px; padding:20px; border:1px solid var(--border); border-radius:var(--radius);
+      background: var(--card); box-shadow:var(--shadow); position:relative; overflow:hidden;
+    }
+    .hero::after{
+      content:""; position:absolute; inset:auto -20%  -40% -20%; height:60%;
+      background: radial-gradient(120px 80px at 80% 30%, color-mix(in oklab, var(--accent) 14%, transparent), transparent 70%),
+                  radial-gradient(90px 60px at 20% 60%, color-mix(in oklab, var(--accent-2) 12%, transparent), transparent 70%);
+      pointer-events:none;
+    }
+    h1{
+      font:800 clamp(26px,5.5vw,44px)/1.06 var(--sans); letter-spacing:-.01em; margin:0 0 8px;
+    }
+    .subtitle{
+      color:var(--muted); margin:0; font-size:14px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+    }
+    .toc{
+      position:sticky; top:64px; margin:16px 0; padding:10px; border:1px dashed color-mix(in oklab, var(--accent) 35%, var(--border));
+      border-radius:var(--radius-sm); background:#fff; display:flex; gap:8px; overflow:auto;
+      background: color-mix(in oklab, var(--accent) 6%, #fff);
+    }
+    .toc a{
+      white-space:nowrap; padding:8px 12px; border-radius:999px; border:1px solid var(--border); color:var(--text);
+      background:#fff; transition:transform .15s ease, background .15s ease; font-size:13px;
+    }
+    .toc a[aria-current="true"]{background:color-mix(in oklab, var(--accent) 16%, #fff); border-color:color-mix(in oklab, var(--accent) 40%, var(--border))}
+    section{
+      scroll-margin-top:88px; margin:14px 0; padding:16px; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--card);
+      box-shadow:var(--shadow);
+      border-color: color-mix(in oklab, var(--accent) 12%, var(--border));
+    }
+    h2{
+      font:800 clamp(18px,4.2vw,28px)/1.15 var(--sans); margin:0 0 10px; letter-spacing:-.01em;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2)); -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    p{margin:10px 0; line-height:1.9; font-size:15.5px}
+    ul{margin:8px 0 8px 0; padding-inline-start:18px}
+    li{margin:6px 0; line-height:1.9}
+    .meta{
+      display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; color:var(--muted); font-size:12px
+    }
+    .footer{
+      margin-top:24px; padding:16px; text-align:center; color:var(--muted); font-size:12px;
+    }
+    .fab{
+      position:fixed; inset-inline-end:16px; bottom:16px; width:48px; height:48px; border-radius:14px;
+      display:grid; place-items:center; background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      color:#fff; box-shadow:0 8px 28px rgba(110,68,255,.35); border:none; cursor:pointer; transform:translateY(12px);
+      opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease;
+    }
+    .fab.show{opacity:1; transform:translateY(0); pointer-events:auto}
+    .mono{font-family:var(--mono)}
+    @media (min-width:980px){
+      .container{padding:28px 24px 140px}
+      .toc{gap:10px}
+      .hero{padding:28px}
+      section{padding:18px 20px}
+    }
+    @media (max-width:600px){
+      .nav{padding:14px 14px}
+      .pill, .toc a{padding:10px 14px; min-height:44px}
+      .hero{padding:22px}
+      p, li{font-size:16px; line-height:2}
+      .fab{width:56px; height:56px; bottom:calc(16px + env(safe-area-inset-bottom))}
+    }
+    :focus-visible{outline:2px solid color-mix(in oklab, var(--accent) 70%, #000); outline-offset:2px}
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+  <header>
+    <nav class="nav">
+      <img class="logo" src="mttm-logo.png" alt="MTTM" />
+      <div class="brand">سازمان MTTM</div>
+      <div class="spacer"></div>
+      <span class="pill" title="نسخه سند">
+        <span class="mono">v0.1</span>
+        <span>پیش‌نویس</span>
+      </span>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="hero" role="banner">
+      <h1>گزارش سازمان MTTM</h1>
+      <p class="subtitle">
+        نسخه 0.1 (پیش‌نویس با طعم چایی ☕ و کمی شوخی 😂)
+      </p>
+      <div class="meta">
+        <span> آخرین به‌روزرسانی: 1404/6/28-7:30</span>
+        <span>•</span>
+        <button id="copyLink" class="pill" type="button" aria-label="کپی لینک">کپی لینک 📋</button>
+      </div>
+    </div>
+
+    <nav class="toc" aria-label="فهرست">
+      <a href="#intro">معرفی</a>
+      <a href="#vision">چشم‌انداز</a>
+      <a href="#projects">پروژه‌های آینده</a>
+      <a href="#values">ارزش‌ها</a>
+      <a href="#conclusion">نتیجه‌گیری</a>
+    </nav>
+
+    <section id="intro" aria-labelledby="h-intro">
+      <h2 id="h-intro">👋 معرفی</h2>
+      <p>
+        ما دو انسان خردمند و دانا، تصمیم گرفتیم چیزی بسازیم که اول به خودمون حال بده، بعدش شاید دنیا رو هم یه ذره تغییر بده.
+        اسم این حرکت رو گذاشتیم MTTM.
+        (معنیشو فعلاً نمیگیم، کلاس کار حفظ بشه 😎).
+      </p>
+    </section>
+
+    <section id="vision" aria-labelledby="h-vision">
+      <h2 id="h-vision">🎯 چشم‌انداز</h2>
+      <p>ساختن یه مجموعه پروژه‌های دیجیتال که ترکیبی باشه از:</p>
+      <ul>
+        <li>فان (چون زندگی بدون خنده خیلی جدیه)</li>
+        <li>کاربردی (چون به درد بخوره قشنگ‌تره)</li>
+        <li>نوآورانه (یه ذره ادعای استارتاپی لازم داریم بالاخره 😂)</li>
+      </ul>
+    </section>
+
+    <section id="projects" aria-labelledby="h-projects">
+      <h2 id="h-projects">🚀 پروژه‌های آینده</h2>
+      <p>
+        وقتی اوضاع مالی‌مون بهتر بشه (فعلاً جیب‌هامون بیشتر به درد نگه‌داشتن رسید فاکتور پیتزا می‌خوره 😅)، می‌خوایم این کارها رو استارت بزنیم:
+      </p>
+      <ul>
+        <li><b>Web3 Projects</b> → چیزایی که روی بلاکچین سوار میشن و قراره خیلی باکلاس باشن.</li>
+        <li><b>فضای ذخیره‌سازی رایگان</b> → چون کی بدش میاد از یه جایی که بشه راحت فایل آپلود کرد؟</li>
+        <li><b>چت‌روم باحال</b> → جایی برای خنده، دوستی و حرف زدن بدون استیکرای تکراری.</li>
+        <li><b>بازی‌های آنلاین ساده</b> → بازی‌هایی که بشه وسط کار یا دانشگاه یواشکی بازی کرد.</li>
+        <li><b>ساخت برند MTTM</b> → یه برند کوچیک ولی خوشمزه، که کم‌کم همه جا بشه دیدش.</li>
+        <li><b>و ادامه راه ...</b> → قراره کلی کارای دیگه انجام بدیم اما فعلا زمان نیاز داریم...</li>
+      </ul>
+    </section>
+
+    <section id="values" aria-labelledby="h-values">
+      <h2 id="h-values">💡 ارزش‌ها</h2>
+      <ul>
+        <li>ما همه‌چیزو از صفر شروع کردیم.</li>
+        <li>اعتقاد داریم حتی دو نفر هم می‌تونن یه سازمان حساب شن .</li>
+        <li>باور داریم آینده رو باید با شوخی و چایی ساخت، نه با استرس و کت‌شلوار تنگ.</li>
+      </ul>
+    </section>
+
+    <section id="conclusion" aria-labelledby="h-conclusion">
+      <h2 id="h-conclusion">🏆 نتیجه‌گیری</h2>
+      <p>
+        MTTM یه شوخی نیست.
+        ولی جدی جدی داریم روی چیزی کار می‌کنیم که آینده‌ش می‌تونه هم حال بده، هم سود.
+      </p>
+    </section>
+
+    <div class="footer">
+      ساخته‌شده با ☕ و کمی چایی — © MTTM
+    </div>
+  </main>
+
+  <button class="fab" id="toTop" aria-label="بازگشت به بالا">↑</button>
+
+  <script>
+    // Smooth anchor and current section highlight
+    const links = [...document.querySelectorAll('.toc a')];
+    const progress = document.getElementById('progress');
+    const toTop = document.getElementById('toTop');
+    const copyBtn = document.getElementById('copyLink');
+
+    links.forEach(a=>{
+      a.addEventListener('click', e=>{
+        e.preventDefault();
+        const id = a.getAttribute('href');
+        document.querySelector(id)?.scrollIntoView({behavior:'smooth', block:'start'});
+        history.replaceState(null,'',id);
+      });
+    });
+
+    const obs = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          const id = '#'+e.target.id;
+          links.forEach(l=>l.setAttribute('aria-current', l.getAttribute('href')===id ? 'true':'false'));
+        }
+      });
+    }, {rootMargin:'-40% 0px -50% 0px', threshold:[0,1]});
+
+    document.querySelectorAll('main section').forEach(s=>obs.observe(s));
+
+    // Scroll progress + FAB
+    const onScroll = ()=>{
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      const pct = max>0 ? (h.scrollTop / max) * 100 : 0;
+      progress.style.width = pct+'%';
+      if(h.scrollTop > 280){ toTop.classList.add('show'); } else { toTop.classList.remove('show'); }
+    };
+    document.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+
+    toTop.addEventListener('click', ()=>window.scrollTo({top:0, behavior:'smooth'}));
+
+    // Copy link
+    copyBtn.addEventListener('click', async ()=>{
+      try{
+        await navigator.clipboard.writeText(location.href);
+        copyBtn.textContent = 'کپی شد ✅';
+        setTimeout(()=>copyBtn.textContent='کپی لینک 📋', 1200);
+      }catch{
+        copyBtn.textContent = 'خطا در کپی ❌';
+        setTimeout(()=>copyBtn.textContent='کپی لینک 📋', 1400);
+      }
+    });
+
+    // Respect reduced motion
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.style.scrollBehavior = 'auto';
+    }
+  </script>
+</body>
+</html>
