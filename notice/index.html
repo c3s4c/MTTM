@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اطلاعیه</title>
+    <style>
+        @font-face {
+            font-family: 'Vazir';
+            src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/Vazir.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazir', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        .notification {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .notification:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .notification-header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .icon {
+            width: 28px;
+            height: 28px;
+            margin-left: 12px;
+        }
+
+        .notification-header h1 {
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .notification-content {
+            padding: 30px 25px;
+            line-height: 1.8;
+        }
+
+        .notification-content p {
+            margin-bottom: 15px;
+        }
+
+        .notification-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .notification-footer {
+            background-color: #f9f9f9;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+        }
+
+        .timestamp {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .notification-header h1 {
+                font-size: 1.2rem;
+            }
+            
+            .notification-content {
+                padding: 20px 15px;
+            }
+            
+            .notification-footer {
+                padding: 12px 15px;
+            }
+            
+            .notification-content p {
+                font-size: 0.95rem;
+                margin-bottom: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="notification">
+            <div class="notification-header">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor"/>
+                </svg>
+                <h1>اطلاعیه</h1>
+            </div>
+            <div class="notification-content">
+                <p>🚀 اعضای سازمان MTTM در حال حاضر با شدت تمام مشغول طرح‌ریزی برای آینده درخشان و البته دست و پنجه نرم کردن برای به دست آوردن کمی 💸 پول هستند!
+پس اگه فعلاً خبری نیست، بدونید ما پشت صحنه داریم عرق می‌ریزیم، فکر می‌کنیم و البته گهگاهی به قهوه و خنده هم پناه می‌بریم.</p>
+                <p>تاریخ گزارش: 1404/6/28 - 6:16AM</p>
+                
+            </div>
+            <div class="notification-footer">
+                <p class="timestamp" id="timestamp">زمان فعلی: <span></span></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // نمایش تاریخ و زمان فعلی
+            const today = new Date();
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            
+            // تبدیل تاریخ به فرمت فارسی
+            const persianDate = today.toLocaleDateString('fa-IR', options);
+            document.querySelector('#timestamp span').textContent = persianDate;
+            
+            // نمایش با انیمیشن در هنگام بارگذاری
+            const notification = document.querySelector('.notification');
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                notification.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
